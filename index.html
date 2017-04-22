@@ -1,0 +1,86 @@
+<html ng-app="chatApp">
+
+<head>
+    <title>FireChat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/fbInit.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body ng-controller="mainController">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">FireChat</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- ----------------------LOGIN-------------------- -->
+                <div class="panel panel-info" ng-show="isLogined">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Login</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="Login">Username</label>
+                                <input type="text" autocomplete="off" class="form-control" id="login-username" placeholder="Username" ng-model="logUsername"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="login-password" placeholder="Password" ng-model="logPassword">
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-click="login()">Login</button>
+                        </form>
+                        <span class="label label-danger" ng-show="isWrong">Wrong password.</span>
+                    </div>
+                </div>
+                <!-- ----------------------REGISTER-------------------- -->
+                <div class="panel panel-danger" ng-show="regPanelShow">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Register</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>In order to use Chat App, you need to register first.</p>
+                        <form>
+                            <div class="form-group">
+                                <label for="Register">Username</label>
+                                <input type="text" class="form-control" id="register-username" placeholder="Username" ng-model="regUsername" />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="register-password" placeholder="Password" ng-model="regPassword" />
+                            </div>
+                            <button type="submit" class="btn btn-danger" ng-click="register()">Register</button>
+                        </form>
+                        <span class="label label-danger" ng-show="isTaken">Username already exist.</span>
+                    </div>
+                </div>
+                <!-- ----------------------USERLIST-------------------- -->
+                <div class="panel panel-warning" ng-show="!isLogined">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">User List</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <a class="list-group-item" ng-click="openChat(m.username,m.$id)" ng-repeat="m in users | filter:{ username: '!' + me.username} ">{{ m.username }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

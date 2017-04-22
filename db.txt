@@ -1,0 +1,15 @@
+users:
+$id:
+    username,
+    password
+—----------------------
+conversations:
+$id:
+    userids[]
+—---------------------—
+messages:
+$id:
+    senderid,
+    conversationid,
+    body,
+    date
