@@ -74,12 +74,43 @@
                     </div>
                     <div class="panel-body">
                         <div class="list-group">
-                            <a class="list-group-item" ng-click="openChat(m.username,m.$id)" ng-repeat="m in users | filter:{ username: '!' + me.username} ">{{ m.username }}</a>
+                            <a class="list-group-item" ng-click="createConversation(m.$id, m.username)" ng-repeat="m in users | filter:{ username: '!' + me.username} ">{{ m.username }}</a>
+                            <a class="list-group-item" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Create Group</a>
+
+                            <div class="collapse" id="collapseExample">
+                                <div class="well">
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-5">
+                <!-- ----------------------PANEL-------------------- -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading" ng-model="reciever">{{reciever}}</div>
+                    <div class="panel-body pre-scrollable">
+                        <ul>
+                            <li ng-repeat="m in messages | filter: {conversationID:currentConversation}:true">{{m.body}}</li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+
+                        <form ng-submit="sendMessage()">
+                            <div class="form-group">
+                                <input ng-model="messageText" type="text" class="form-control" placeholder="Type to text" />
+                            </div>
+                        </form>
+
+
+                    </div>
+
+                </div>
+            </div>
         </div>
+
     </div>
 </body>
 
