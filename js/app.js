@@ -4,6 +4,7 @@ var app = angular.module('chatApp', ['firebase']);
 app.controller('mainController', function ($scope, $firebaseArray) {
     var me;
     $scope.currentConversation = "---";
+    var groupUserIDs = [];
 
     //User ref
     var refUsers = firebase.database().ref().child('Users');
@@ -35,8 +36,8 @@ app.controller('mainController', function ($scope, $firebaseArray) {
                 userids: [
                     selectedUserID, me.$id
                 ]
-                }).then(function(p){
-                    $scope.currentConversation = p['path']['o'][1];
+            }).then(function (p) {
+                $scope.currentConversation = p['path']['o'][1];
             });
         }
 
@@ -46,12 +47,24 @@ app.controller('mainController', function ($scope, $firebaseArray) {
     $scope.sendMessage = function () {
         $scope.messages.$add({
             conversationID: $scope.currentConversation,
-            body : $scope.me.username + " : " + $scope.messageText,
-            date : Date.now(),
-            sender : $scope.me.$id
+            body: $scope.me.username + " : " + $scope.messageText,
+            date: Date.now(),
+            sender: $scope.me.$id
         });
 
         $scope.messageText = "";
+    }
+
+    var groupUserNames = [];
+    $scope.pickGroupUsers = function (id, username) {
+        if (groupUserIDs.indexOf(id) != -1) {
+            console.log(groupUserIDs.indexOf(id));
+        }
+        else {
+            groupUserIDs.push(id);
+            groupUserNames.push(username);
+        }
+        console.log(groupUserIDs);
     }
 
     // login
@@ -74,9 +87,38 @@ app.controller('mainController', function ($scope, $firebaseArray) {
             i++;
         }, this);
         $scope.regPanelShow = false;
-
     }
 
+
+    $scope.startGroupChat = function () {
+
+        groupUserIDs.push($scope.me.$id);
+        
+        var allusersName = "";
+        groupUserNames.forEach(function (username) {
+            allusersName += username + " - ";
+        });
+        allusersName += $scope.me.username;
+
+        $scope.conversations.$add({
+            userids: groupUserIDs,
+            isGroup: true,
+            usernames: allusersName
+        }).then(function (p) {
+            $scope.reciever = allusersName;
+            $scope.currentConversation = p['path']['o'][1];
+        });
+    }
+
+    $scope.openGroupChat = function(groupID){
+        $scope.conversations.forEach(function(group){
+            if(group.$id == groupID){
+                $scope.reciever = group.usernames;
+                $scope.currentConversation = groupID;
+                return;
+            }
+        });
+    }
     // Register - and control
     $scope.isTaken = false;;
     $scope.regPanelShow = true;
