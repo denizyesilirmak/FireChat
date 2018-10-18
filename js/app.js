@@ -6,13 +6,13 @@ app.controller('mainController', function ($scope, $firebaseArray) {
     $scope.currentConversation = "---";
     var groupUserIDs = [];
 
-    //User ref
+    // User ref
     var refUsers = firebase.database().ref().child('Users');
     $scope.users = $firebaseArray(refUsers);
-    //Conversation ref
+    // Conversation ref
     var refConversations = firebase.database().ref().child('Conversations');
     $scope.conversations = $firebaseArray(refConversations);
-    //Messages ref
+    // Messages ref
     var refMessages = firebase.database().ref().child('Messages');
     $scope.messages = $firebaseArray(refMessages);
 
@@ -67,7 +67,7 @@ app.controller('mainController', function ($scope, $firebaseArray) {
         console.log(groupUserIDs);
     }
 
-    // login
+    // Login
     $scope.isLogined = true;
     $scope.login = function (a) {
         var i = 0;
@@ -119,7 +119,7 @@ app.controller('mainController', function ($scope, $firebaseArray) {
             }
         });
     }
-    // Register - and control
+    // Register and Control
     $scope.isTaken = false;;
     $scope.regPanelShow = true;
     $scope.register = function () {
