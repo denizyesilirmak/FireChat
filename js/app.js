@@ -119,7 +119,7 @@ app.controller('mainController', function ($scope, $firebaseArray) {
             }
         });
     }
-    // Register - and control
+    // Register and control
     $scope.isTaken = false;;
     $scope.regPanelShow = true;
     $scope.register = function () {
